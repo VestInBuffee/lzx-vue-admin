@@ -215,7 +215,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="角色">
-              <el-select v-model="form.roleIds" multiple placeholder="请选择">
+              <el-select v-model="form.roleIds" @change="selectRole" multiple placeholder="请选择">
                 <el-option
                   v-for="item in roleOptions"
                   :key="item.id"
@@ -325,6 +325,10 @@ export default {
     this.getList()
   },
   methods: {
+    // 强制刷新
+    selectRole() {
+      this.$forceUpdate()
+    },
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1
