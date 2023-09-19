@@ -27,7 +27,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="标签">
-            <el-select v-model="form.tags" placeholder="请选择" multiple>
+            <el-select v-model="form.tagIds" placeholder="请选择" multiple @change="$forceUpdate()">
               <el-option
                 v-for="tag in tagList"
                 :key="tag.id"
@@ -143,6 +143,7 @@ export default {
     getArticle() {
       getArticle(this.aId).then(response => {
         this.form = response
+        this.form.tagIds = response.tagList.map(el => el.id)
         this.fileList.push({ name: '缩略图', url: response.thumbnail })
       })
     },
@@ -152,7 +153,18 @@ export default {
         this.$modal.msgSuccess('保存草稿成功')
       })
     },
+    getUpdateTag() {
+      var updateTag = []
+      const form = this.form
+      for (const tag of this.tagList) {
+        if (form.tagIds.some(tagId => tagId === tag.id)) {
+          updateTag.push(tag)
+        }
+      }
+      return updateTag
+    },
     handleSubmit() {
+      this.form.tagList = this.getUpdateTag()
       if (!this.aId) {
         this.form.status = '0'
         addArticle(this.form).then(response => {
