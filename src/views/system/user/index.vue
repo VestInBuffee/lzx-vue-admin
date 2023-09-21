@@ -102,7 +102,7 @@
             width="160"
             class-name="small-padding fixed-width"
           >
-            <template v-if="scope.row.id !== 1" slot-scope="scope">
+            <template v-if="scope.row.id !== '1'" slot-scope="scope">
               <el-button
                 size="mini"
                 type="text"
